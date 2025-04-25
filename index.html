@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ganesh Khot - Engineering Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* --- Existing Styles --- */
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+        html { scroll-behavior: smooth; }
+        .typing-cursor { display: inline-block; background-color: #f59e0b; width: 3px; height: 1.2em; margin-left: 2px; animation: blink-caret .75s step-end infinite; vertical-align: bottom; }
+        @keyframes blink-caret { from, to { background-color: transparent } 50% { background-color: #f59e0b; } }
+        .animate-on-scroll { opacity: 0; transition: opacity 0.6s ease-out, transform 0.6s ease-out; will-change: opacity, transform; }
+        .animate-on-scroll.fade-in-up { transform: translateY(30px); }
+        .animate-on-scroll.fade-in-left { transform: translateX(-30px); }
+        .animate-on-scroll.fade-in-right { transform: translateX(30px); }
+        .animate-on-scroll.fade-in { transform: translate(0, 0); }
+        .animate-on-scroll.is-visible { opacity: 1; transform: translate(0, 0); }
+        .delay-1 { transition-delay: 0.15s; } .delay-2 { transition-delay: 0.3s; } .delay-3 { transition-delay: 0.45s; }
+        .project-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .project-card:hover { transform: translateY(-6px) scale(1.02); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15); }
+        .skill-bar-fill { width: 0; transition: width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+        .nav-link.active { color: #fcd34d; font-weight: 600; }
+        header.scrolled { background-color: #4f46e5; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        #mobile-menu { transition: opacity 0.3s ease-in-out, visibility 0s linear 0.3s; }
+        #mobile-menu > div { transition: transform 0.3s ease-in-out; }
+        #mobile-menu.menu-hidden { opacity: 0; pointer-events: none; visibility: hidden; transition: opacity 0.3s ease-in-out, visibility 0s linear 0.3s; }
+        #mobile-menu.menu-hidden > div { transform: translateX(100%); }
+        #mobile-menu.menu-visible { opacity: 1; pointer-events: auto; visibility: visible; transition-delay: 0s; }
+        #mobile-menu.menu-visible > div { transform: translateX(0); }
+        .modal { transition: opacity 0.3s ease-in-out, visibility 0s linear 0.3s; }
+        .modal-content { transition: transform 0.3s ease-out, opacity 0.3s ease-out; }
+        .modal-hidden { opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.3s ease-in-out, visibility 0s linear 0.3s; }
+        .modal-hidden .modal-content { transform: scale(0.95) translateY(10px); opacity: 0; }
+        .modal-visible { opacity: 1; visibility: visible; pointer-events: auto; transition-delay: 0s; }
+        .modal-visible .modal-content { transform: scale(1) translateY(0); opacity: 1; transition-delay: 0.05s; }
+
+        /* --- Custom Styles for Profile Image --- */
+        .profile-image-container {
+            position: relative; /* Needed for the ::before pseudo-element */
+            display: inline-block; /* Or adjust parent flex/grid */
+            line-height: 0; /* Prevent extra space below image */
+        }
+
+        .profile-img-custom {
+            /* Replicates the specific border from previous example */
+            border: 7px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Re-add the rotating dashed border */
+        .profile-image-container::before {
+            content: '';
+            position: absolute;
+            /* Adjust offsets based on border width (7px) + dashed border width (2px) + desired gap */
+            top: -18px;    /* Approx -(7 + 2 + 9) */
+            left: -18px;
+            right: -18px;
+            bottom: -18px;
+            border: 2px dashed #f59e0b; /* Tailwind orange-500 */
+            border-radius: 50%;        /* Match image shape */
+            opacity: 0.6;
+            animation: rotate 25s linear infinite; /* Slower rotation? */
+            z-index: -1;               /* Place behind the image */
+            pointer-events: none;      /* Prevent interaction */
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        /* --- End Custom Styles --- */
+
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-900">
+    <!-- Header (No Changes Needed) -->
+     <header id="main-header" class="bg-indigo-600 text-white py-4 sticky top-0 z-50 shadow-md transition-all duration-300">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <a href="#home" class="hover:text-indigo-200 transition-colors duration-200 text-xl font-semibold">Ganesh Khot</a>
+            <nav class="hidden md:block">
+                <ul class="flex space-x-6">
+                    <li><a href="#home" class="nav-link hover:text-indigo-200 transition-colors duration-200">Home</a></li>
+                    <li><a href="#about" class="nav-link hover:text-indigo-200 transition-colors duration-200">About</a></li>
+                    <li><a href="#skills" class="nav-link hover:text-indigo-200 transition-colors duration-200">Skills</a></li>
+                    <li><a href="#projects" class="nav-link hover:text-indigo-200 transition-colors duration-200">Projects</a></li>
+                    <li><a href="#education" class="nav-link hover:text-indigo-200 transition-colors duration-200">Education</a></li>
+                    <li><a href="#contact" class="nav-link hover:text-indigo-200 transition-colors duration-200">Contact</a></li>
+                </ul>
+            </nav>
+            <button id="hamburger-btn" class="md:hidden text-white focus:outline-none p-2 -mr-2" aria-label="Toggle Navigation">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Menu (No Changes Needed) -->
+    <div id="mobile-menu" class="fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-90 z-40 menu-hidden">
+        <div class="bg-gray-800 w-80 h-full absolute right-0 p-6 shadow-xl">
+            <div class="flex justify-end mb-6">
+                <button id="close-menu-btn" class="text-white focus:outline-none hover:text-indigo-300 transition-colors p-2 -mr-2" aria-label="Close Menu">
+                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <nav class="block">
+                <ul class="space-y-5">
+                    <li><a href="#home" class="nav-link-mobile block text-lg text-white hover:text-indigo-200 transition-colors duration-200 px-2 py-1 rounded hover:bg-gray-700">Home</a></li>
+                    <li><a href="#about" class="nav-link-mobile block text-lg text-white hover:text-indigo-200 transition-colors duration-200 px-2 py-1 rounded hover:bg-gray-700">About</a></li>
+                    <li><a href="#skills" class="nav-link-mobile block text-lg text-white hover:text-indigo-200 transition-colors duration-200 px-2 py-1 rounded hover:bg-gray-700">Skills</a></li>
+                    <li><a href="#projects" class="nav-link-mobile block text-lg text-white hover:text-indigo-200 transition-colors duration-200 px-2 py-1 rounded hover:bg-gray-700">Projects</a></li>
+                    <li><a href="#education" class="nav-link-mobile block text-lg text-white hover:text-indigo-200 transition-colors duration-200 px-2 py-1 rounded hover:bg-gray-700">Education</a></li>
+                    <li><a href="#contact" class="nav-link-mobile block text-lg text-white hover:text-indigo-200 transition-colors duration-200 px-2 py-1 rounded hover:bg-gray-700">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Home Section -->
+        <section id="home" class="container mx-auto px-4 py-24 flex flex-col md:flex-row items-center justify-center gap-12 min-h-screen">
+             <div class="md:w-2/3 text-center md:text-left animate-on-scroll fade-in-left">
+                <h1 class="text-4xl md:text-5xl font-bold text-indigo-700 mb-4">Ganesh Khot</h1>
+                <p class="text-xl md:text-2xl text-gray-700 mb-6 min-h-[2.5em] flex items-center justify-center md:justify-start">
+                    <span id="typing-target"></span><span class="typing-cursor"></span>
+                </p>
+                <div class="flex justify-center md:justify-start space-x-6 mb-8">
+                    <a href="https://www.linkedin.com/in/ganeshkhot17/" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-indigo-600 transition-transform duration-200 hover:scale-110 block" aria-label="LinkedIn Profile">
+                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                    </a>
+                    <a href="https://github.com/ganeshkhot17k" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-indigo-600 transition-transform duration-200 hover:scale-110 block" aria-label="GitHub Profile">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    </a>
+                </div>
+                <a href="#projects" class="inline-block bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-8 rounded-full transition-all duration-300 hover:shadow-lg hover:scale-105 text-lg">
+                    View My Projects
+                </a>
+            </div>
+            <!-- ** MODIFIED IMAGE SECTION ** -->
+            <div class="md:w-1/3 flex justify-center">
+                <div class="profile-image-container animate-on-scroll fade-in-right delay-1">
+                    <img src="Ganesh pfp.jpg" alt="Ganesh Khot" class="profile-img-custom rounded-full shadow-lg max-w-full h-auto border-4 border-orange-300" width="300" height="300">
+                </div>
+            </div>
+            <!-- ** END MODIFIED IMAGE SECTION ** -->
+        </section>
+
+        <!-- About Section (No Changes Needed) -->
+        <section id="about" class="bg-gray-50 py-20 transition-colors duration-300">
+            <div class="container mx-auto px-4 animate-on-scroll fade-in-up">
+                <h2 class="text-3xl md:text-4xl font-semibold text-indigo-700 text-center mb-10">About Me</h2>
+                <div class="max-w-3xl mx-auto text-gray-700 text-lg leading-relaxed space-y-6">
+                    <p>Hello! I'm Ganesh Khot, a passionate electronics and telecommunication engineering student at MITAOE, Alandi, Pune. I'm driven by a curiosity to understand and build things that solve real-world problems. My academic journey has equipped me with a strong foundation in C programming, and I'm continuously expanding my skills in Python and exploring the fascinating world of IOT and Cyber Security.</p>
+                    <p>I'm particularly interested in the intersection of hardware and software, and I'm always eager to learn new technologies. I believe that engineering is not just about technical skills, but also about creativity, problem-solving, and collaboration. I strive to bring these qualities to every project I work on.</p>
+                    <p>My career goal is to contribute meaningfully to the field of electronics and telecommunication, particularly in areas like IOT and Cyber Security, where I believe I can make a significant impact. I'm excited about the future of technology and the opportunities it holds, and I'm committed to continuous learning and growth.</p>
+                </div>
+                 <div class="mt-12 text-center">
+                    <a href="#contact" class="inline-block bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-8 rounded-full transition-all duration-300 hover:shadow-lg hover:scale-105 text-lg">
+                        Let's Connect
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section (No Changes Needed) -->
+        <section id="skills" class="bg-indigo-100 py-20 transition-colors duration-300">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl font-semibold text-indigo-700 text-center mb-12 animate-on-scroll fade-in">My Skillset</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    <!-- Programming Languages Card -->
+                    <div class="bg-white rounded-lg shadow-lg p-8 animate-on-scroll fade-in-up hover:shadow-xl transition-shadow duration-300">
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-6 text-center border-b pb-3">Programming</h3>
+                        <div class="space-y-5">
+                            <div>
+                                <div class="flex justify-between items-center mb-1">
+                                    <span class="text-gray-700 font-medium">C</span>
+                                    <span class="text-indigo-600 font-semibold text-sm">Expert</span>
+                                </div>
+                                <div class="bg-gray-200 rounded-full h-3 overflow-hidden">
+                                    <div class="bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full h-3 skill-bar-fill" data-skill-level="90"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between items-center mb-1">
+                                    <span class="text-gray-700 font-medium">Python</span>
+                                    <span class="text-indigo-600 font-semibold text-sm">Proficient</span>
+                                </div>
+                                <div class="bg-gray-200 rounded-full h-3 overflow-hidden">
+                                    <div class="bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full h-3 skill-bar-fill" data-skill-level="75"></div>
+                                </div>
+                            </div>
+                             <div>
+                                <div class="flex justify-between items-center mb-1">
+                                    <span class="text-gray-700 font-medium">JavaScript</span>
+                                    <span class="text-indigo-600 font-semibold text-sm">Intermediate</span>
+                                </div>
+                                <div class="bg-gray-200 rounded-full h-3 overflow-hidden">
+                                    <div class="bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full h-3 skill-bar-fill" data-skill-level="60"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Tools & Technologies Card -->
+                    <div class="bg-white rounded-lg shadow-lg p-8 animate-on-scroll fade-in-up delay-1 hover:shadow-xl transition-shadow duration-300">
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-6 text-center border-b pb-3">Tools & Tech</h3>
+                         <div class="space-y-5">
+                            <div>
+                                <div class="flex justify-between items-center mb-1">
+                                    <span class="text-gray-700 font-medium">Arduino</span>
+                                    <span class="text-indigo-600 font-semibold text-sm">Expert</span>
+                                </div>
+                                <div class="bg-gray-200 rounded-full h-3 overflow-hidden">
+                                    <div class="bg-gradient-to-r from-teal-500 to-cyan-500 rounded-full h-3 skill-bar-fill" data-skill-level="90"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between items-center mb-1">
+                                    <span class="text-gray-700 font-medium">Git & GitHub</span>
+                                    <span class="text-indigo-600 font-semibold text-sm">Proficient</span>
+                                </div>
+                                <div class="bg-gray-200 rounded-full h-3 overflow-hidden">
+                                    <div class="bg-gradient-to-r from-teal-500 to-cyan-500 rounded-full h-3 skill-bar-fill" data-skill-level="80"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between items-center mb-1">
+                                    <span class="text-gray-700 font-medium">Linux</span>
+                                    <span class="text-indigo-600 font-semibold text-sm">Intermediate</span>
+                                </div>
+                                <div class="bg-gray-200 rounded-full h-3 overflow-hidden">
+                                    <div class="bg-gradient-to-r from-teal-500 to-cyan-500 rounded-full h-3 skill-bar-fill" data-skill-level="65"></div>
+                                </div>
+                            </div>
+                             <div>
+                                <div class="flex justify-between items-center mb-1">
+                                    <span class="text-gray-700 font-medium">IoT Concepts</span>
+                                    <span class="text-indigo-600 font-semibold text-sm">Learning</span>
+                                </div>
+                                <div class="bg-gray-200 rounded-full h-3 overflow-hidden">
+                                    <div class="bg-gradient-to-r from-teal-500 to-cyan-500 rounded-full h-3 skill-bar-fill" data-skill-level="50"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Soft Skills Card -->
+                    <div class="bg-white rounded-lg shadow-lg p-8 animate-on-scroll fade-in-up delay-2 hover:shadow-xl transition-shadow duration-300">
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-6 text-center border-b pb-3">Soft Skills</h3>
+                        <ul class="space-y-3 text-gray-700">
+                            <li class="flex items-center transition-transform duration-200 hover:translate-x-1"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>Problem Solving</li>
+                            <li class="flex items-center transition-transform duration-200 hover:translate-x-1"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>Critical Thinking</li>
+                            <li class="flex items-center transition-transform duration-200 hover:translate-x-1"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>Communication</li>
+                            <li class="flex items-center transition-transform duration-200 hover:translate-x-1"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>Teamwork</li>
+                            <li class="flex items-center transition-transform duration-200 hover:translate-x-1"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>Adaptability</li>
+                            <li class="flex items-center transition-transform duration-200 hover:translate-x-1"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>Time Management</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section (No Changes Needed in Structure) -->
+        <section id="projects" class="py-20 transition-colors duration-300 bg-white">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl font-semibold text-indigo-700 text-center mb-12 animate-on-scroll fade-in">Featured Projects</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    <!-- Project Card 1: Elevator -->
+                    <div class="bg-gray-50 rounded-lg shadow-md overflow-hidden project-card animate-on-scroll fade-in-up group">
+                        <img src="xyz.jpg" alt="Elevator System for Advertisement Hoardings" class="w-full h-56 object-cover transition-transform duration-300 group-hover:scale-105">
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold text-gray-800 mb-3">Elevator Ad Hoarding System</h3>
+                            <p class="text-gray-700 mb-4 text-sm leading-relaxed">Developed an Arduino-based system to display advertisements synchronized with elevator movement.</p>
+                            <div class="flex flex-wrap gap-2 mb-5">
+                                <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-xs font-medium">Arduino</span>
+                                <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-xs font-medium">C/C++</span>
+                                <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-xs font-medium">Sensors</span>
+                                <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-xs font-medium">Embedded</span>
+                            </div>
+                            <button data-modal-target="#modal-project-elevator" class="modal-trigger text-orange-600 hover:text-orange-700 transition-colors duration-200 font-semibold text-sm group inline-flex items-center">
+                                View Details <span class="ml-1 transform group-hover:translate-x-1 transition-transform duration-200">→</span>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Project Card 2: Laser Security -->
+                    <div class="bg-gray-50 rounded-lg shadow-md overflow-hidden project-card animate-on-scroll fade-in-up delay-1 group">
+                        <img src="LASER.jpg" alt="Laser Security System" class="w-full h-56 object-cover transition-transform duration-300 group-hover:scale-105">
+                         <div class="p-6">
+                            <h3 class="text-xl font-semibold text-gray-800 mb-3">Laser Security System</h3>
+                            <p class="text-gray-700 mb-4 text-sm leading-relaxed">Designed and implemented a laser-based security system for intrusion detection using Arduino and sensors.</p>
+                            <div class="flex flex-wrap gap-2 mb-5">
+                                 <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-xs font-medium">Arduino</span>
+                                <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-xs font-medium">Sensors (LDR)</span>
+                                <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-xs font-medium">C/C++</span>
+                                <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-xs font-medium">Alarm</span>
+                            </div>
+                            <button data-modal-target="#modal-project-laser" class="modal-trigger text-orange-600 hover:text-orange-700 transition-colors duration-200 font-semibold text-sm group inline-flex items-center">
+                                View Details <span class="ml-1 transform group-hover:translate-x-1 transition-transform duration-200">→</span>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Project Card 3: Line Follower -->
+                    <div class="bg-gray-50 rounded-lg shadow-md overflow-hidden project-card animate-on-scroll fade-in-up delay-2 group">
+                        <img src="LINE.jpg" alt="Line Following Robot" class="w-full h-56 object-cover transition-transform duration-300 group-hover:scale-105">
+                         <div class="p-6">
+                            <h3 class="text-xl font-semibold text-gray-800 mb-3">Line Following Robot</h3>
+                            <p class="text-gray-700 mb-4 text-sm leading-relaxed">Built an autonomous line-following robot using Arduino and IR sensors, demonstrating robotics fundamentals.</p>
+                            <div class="flex flex-wrap gap-2 mb-5">
+                                <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-xs font-medium">Arduino</span>
+                                <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-xs font-medium">IR Sensors</span>
+                                <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-xs font-medium">Motor Control</span>
+                                 <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-xs font-medium">C/C++</span>
+                            </div>
+                            <button data-modal-target="#modal-project-robot" class="modal-trigger text-orange-600 hover:text-orange-700 transition-colors duration-200 font-semibold text-sm group inline-flex items-center">
+                                View Details <span class="ml-1 transform group-hover:translate-x-1 transition-transform duration-200">→</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Education Section (No Changes Needed) -->
+        <section id="education" class="bg-gray-50 py-20 transition-colors duration-300">
+            <div class="container mx-auto px-4 animate-on-scroll fade-in-up">
+                <h2 class="text-3xl md:text-4xl font-semibold text-indigo-700 text-center mb-10">Education</h2>
+                <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-8 border-l-4 border-indigo-500 hover:shadow-xl transition-shadow duration-300">
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-2">Bachelor of Technology - Electronics & Telecommunication</h3>
+                    <p class="text-indigo-600 font-medium text-lg mb-1">MIT Academy of Engineering (MITAOE), Alandi, Pune</p>
+                    <p class="text-gray-600 text-sm mb-4">Expected Graduation: 2028</p>
+                    <p class="text-gray-700 leading-relaxed">Focusing on core E&TC principles with a growing interest in embedded systems, IoT applications, and cybersecurity challenges. Key coursework includes Circuit Theory, Digital Systems, Microprocessors, Communication Systems, and Data Structures.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section (No Changes Needed) -->
+        <section id="contact" class="py-20 transition-colors duration-300 bg-gray-100">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl font-semibold text-indigo-700 text-center mb-12 animate-on-scroll fade-in">Get In Touch</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-4xl mx-auto">
+                    <!-- Contact Form -->
+                    <div class="bg-white rounded-lg shadow-lg p-8 animate-on-scroll fade-in-left hover:shadow-xl transition-shadow duration-300">
+                         <h3 class="text-2xl font-semibold text-gray-800 mb-6">Send a Message</h3>
+                        <form id="contact-form" class="space-y-5" action="YOUR_FORMSPREE_ENDPOINT" method="POST">
+                            <div>
+                                <label for="name" class="block text-gray-700 text-sm font-medium mb-1">Name</label>
+                                <input type="text" id="name" name="name" class="shadow-sm appearance-none border border-gray-300 rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200" placeholder="Your Name" required>
+                            </div>
+                            <div>
+                                <label for="email" class="block text-gray-700 text-sm font-medium mb-1">Email</label>
+                                <input type="email" id="email" name="email" class="shadow-sm appearance-none border border-gray-300 rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200" placeholder="Your Email" required>
+                            </div>
+                            <div>
+                                <label for="message" class="block text-gray-700 text-sm font-medium mb-1">Message</label>
+                                <textarea id="message" name="message" rows="5" class="shadow-sm appearance-none border border-gray-300 rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200 resize-y" placeholder="Your Message" required></textarea>
+                            </div>
+                            <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 text-lg hover:scale-105 transform">
+                                Send Message
+                            </button>
+                            <p id="form-status" class="text-sm mt-3 text-center h-4"></p>
+                        </form>
+                    </div>
+                     <!-- Contact Info -->
+                    <div class="bg-white rounded-lg shadow-lg p-8 animate-on-scroll fade-in-right delay-1 hover:shadow-xl transition-shadow duration-300">
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-6">Contact Information</h3>
+                        <div class="space-y-5 text-gray-700">
+                             <p class="flex items-center group">
+                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-500 mr-3 group-hover:text-indigo-700 transition-colors duration-200 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"> <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /> </svg>
+                                 <a href="mailto:ganeshkhot17K@gmail.com" class="hover:text-indigo-600 transition-colors duration-200 break-all">ganeshkhot17K@gmail.com</a>
+                             </p>
+                             <p class="flex items-center">
+                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-500 mr-3 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor"> <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" /> </svg>
+                                 <span>Alandi, Pune, Maharashtra</span>
+                             </p>
+                             <div class="pt-4 border-t mt-6">
+                                 <h4 class="text-lg font-medium text-gray-800 mb-3">Connect with me:</h4>
+                                 <div class="flex space-x-5">
+                                     <a href="https://www.linkedin.com/in/ganeshkhot17K/" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-indigo-600 transition-transform duration-200 hover:scale-110 block" aria-label="LinkedIn Profile">
+                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                                     </a>
+                                     <a href="https://github.com/OG-GANESH" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-indigo-600 transition-transform duration-200 hover:scale-110 block" aria-label="GitHub Profile">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                                     </a>
+                                </div>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Project Modals (No Changes Needed Here) -->
+        <div id="modal-project-elevator" class="modal fixed inset-0 z-[60] flex items-center justify-center bg-black bg-opacity-70 p-4 modal-hidden" aria-labelledby="modal-title-elevator" role="dialog" aria-modal="true"> <div class="modal-content bg-white rounded-lg shadow-xl max-w-xl w-full p-6 relative"> <button class="modal-close-btn absolute top-3 right-3 text-gray-500 hover:text-gray-800 transition-colors" aria-label="Close modal"> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"> <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /> </svg> </button> <h3 id="modal-title-elevator" class="text-2xl font-semibold text-indigo-700 mb-4">Elevator Ad Hoarding System</h3> <div class="space-y-4 text-gray-700"> <p>This project involved creating a system where advertisements displayed on hoardings near or inside an elevator could be changed based on the elevator's current floor or direction of travel.</p> <p><strong>Goal:</strong> To explore dynamic advertising synchronized with physical movement.</p> <p><strong>Technologies Used:</strong></p> <ul class="list-disc list-inside ml-4 text-sm space-y-1"> <li>Arduino Microcontroller</li> <li>C/C++ Programming</li> <li>Floor Sensors (e.g., Limit Switches, IR Sensors)</li> <li>LCD Display / LED Matrix</li> <li>Basic Circuit Design</li> </ul> <p><strong>Outcome:</strong> Successfully demonstrated the concept of triggering different outputs based on sensor input mimicking elevator movement.</p> </div> </div> </div>
+        <div id="modal-project-laser" class="modal fixed inset-0 z-[60] flex items-center justify-center bg-black bg-opacity-70 p-4 modal-hidden" aria-labelledby="modal-title-laser" role="dialog" aria-modal="true"> <div class="modal-content bg-white rounded-lg shadow-xl max-w-xl w-full p-6 relative"> <button class="modal-close-btn absolute top-3 right-3 text-gray-500 hover:text-gray-800 transition-colors" aria-label="Close modal"> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"> <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /> </svg> </button> <h3 id="modal-title-laser" class="text-2xl font-semibold text-indigo-700 mb-4">Laser Security System</h3> <div class="space-y-4 text-gray-700"> <p>This project implements a simple perimeter security system. A laser beam is aimed at a light sensor (LDR). If the beam is broken, the system detects the change and triggers an alarm.</p> <p><strong>Goal:</strong> To create a basic intrusion detection mechanism using common electronic components.</p> <p><strong>Technologies Used:</strong></p> <ul class="list-disc list-inside ml-4 text-sm space-y-1"> <li>Arduino Microcontroller</li> <li>C/C++ Programming</li> <li>Laser Diode</li> <li>Light Dependent Resistor (LDR)</li> <li>Buzzer/LED (for alarm)</li> </ul> <p><strong>Outcome:</strong> Successfully built a functional prototype that triggers an alert when the laser beam path is interrupted.</p> </div> </div> </div>
+        <div id="modal-project-robot" class="modal fixed inset-0 z-[60] flex items-center justify-center bg-black bg-opacity-70 p-4 modal-hidden" aria-labelledby="modal-title-robot" role="dialog" aria-modal="true"> <div class="modal-content bg-white rounded-lg shadow-xl max-w-xl w-full p-6 relative"> <button class="modal-close-btn absolute top-3 right-3 text-gray-500 hover:text-gray-800 transition-colors" aria-label="Close modal"> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"> <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /> </svg> </button> <h3 id="modal-title-robot" class="text-2xl font-semibold text-indigo-700 mb-4">Line Following Robot</h3> <div class="space-y-4 text-gray-700"> <p>This project involved building a small autonomous robot that uses sensors to detect and follow a black line on a contrasting surface.</p> <p><strong>Goal:</strong> To understand basic robotics principles, sensor integration, and motor control algorithms.</p> <p><strong>Technologies Used:</strong></p> <ul class="list-disc list-inside ml-4 text-sm space-y-1"> <li>Arduino Microcontroller</li> <li>C/C++ Programming</li> <li>IR Sensor Array</li> <li>DC Motors & Motor Driver (e.g., L293D)</li> <li>Robot Chassis</li> </ul> <p><strong>Outcome:</strong> Developed a robot capable of autonomously navigating a predefined line path using sensor feedback and motor adjustments.</p> </div> </div> </div>
+
+    </main>
+
+    <!-- Footer (No Changes Needed) -->
+    <footer class="bg-gray-800 text-white py-6">
+        <div class="container mx-auto px-4 text-center text-sm">
+            <p>© <span id="current-year">2024</span> Ganesh Khot. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- External JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>

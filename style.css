@@ -1,0 +1,159 @@
+/* Add or update these styles within your <style> tag or external CSS */
+body {
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden; /* Prevent horizontal scroll from animations */
+}
+html {
+    scroll-behavior: smooth;
+}
+
+/* JS Typing animation styles */
+.typing-cursor {
+    display: inline-block;
+    background-color: #f59e0b; /* Tailwind orange-500 */
+    width: 3px;
+    height: 1.2em;
+    margin-left: 2px;
+    animation: blink-caret .75s step-end infinite;
+    vertical-align: bottom;
+}
+@keyframes blink-caret {
+    from, to { background-color: transparent }
+    50% { background-color: #f59e0b; }
+}
+
+/* Base styles for scroll animations */
+.animate-on-scroll {
+    opacity: 0;
+    will-change: opacity, transform;
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.animate-on-scroll.fade-in-up { transform: translateY(30px); }
+.animate-on-scroll.fade-in-left { transform: translateX(-30px); }
+.animate-on-scroll.fade-in-right { transform: translateX(30px); }
+.animate-on-scroll.fade-in { transform: translate(0, 0); }
+.animate-on-scroll.is-visible {
+    opacity: 1;
+    transform: translate(0, 0);
+}
+.delay-1 { transition-delay: 0.15s; }
+.delay-2 { transition-delay: 0.3s; }
+.delay-3 { transition-delay: 0.45s; }
+
+/* Project Card Hover */
+.project-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.project-card:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Skill Bar */
+.skill-bar-fill {
+    width: 0;
+    transition: width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Active Nav Link */
+.nav-link.active {
+    color: #fcd34d;
+    font-weight: 600;
+}
+
+/* Header scrolled state */
+header.scrolled {
+    background-color: #4f46e5;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Mobile Menu Transition */
+#mobile-menu {
+    transition: opacity 0.3s ease-in-out, visibility 0s linear 0.3s;
+}
+#mobile-menu > div {
+    transition: transform 0.3s ease-in-out;
+}
+#mobile-menu.menu-hidden {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, visibility 0s linear 0.3s;
+}
+#mobile-menu.menu-hidden > div {
+    transform: translateX(100%);
+}
+#mobile-menu.menu-visible {
+    opacity: 1;
+    pointer-events: auto;
+    visibility: visible;
+    transition-delay: 0s;
+}
+#mobile-menu.menu-visible > div {
+    transform: translateX(0);
+}
+
+/* Modal Styles */
+.modal {
+     transition: opacity 0.3s ease-in-out, visibility 0s linear 0.3s;
+}
+.modal-content {
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+}
+.modal-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s ease-in-out, visibility 0s linear 0.3s;
+}
+.modal-hidden .modal-content {
+    transform: scale(0.95) translateY(10px);
+    opacity: 0;
+}
+.modal-visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transition-delay: 0s;
+}
+.modal-visible .modal-content {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+    transition-delay: 0.05s;
+}
+
+/* --- Custom Styles for Profile Image --- */
+.profile-image-container {
+    position: relative; /* Needed for the ::before pseudo-element */
+    display: inline-block; /* Allows centering if parent uses text-align: center */
+    line-height: 0; /* Prevent extra space below image */
+}
+
+.profile-img-custom {
+    /* Replicates the specific border from previous example */
+    border: 7px solid rgba(255, 255, 255, 0.2);
+    /* Tailwind handles sizing and rounded-full */
+}
+
+/* Re-add the rotating dashed border */
+.profile-image-container::before {
+    content: '';
+    position: absolute;
+    /* Adjust offsets based on border width (7px) + dashed border width (2px) + desired gap */
+    top: -18px;    /* Approx -(7 + 2 + 9) */
+    left: -18px;
+    right: -18px;
+    bottom: -18px;
+    border: 2px dashed #f59e0b; /* Tailwind orange-500 */
+    border-radius: 50%;        /* Match image shape */
+    opacity: 0.6;
+    animation: rotate 25s linear infinite; /* Slower rotation */
+    z-index: -1;               /* Place behind the image */
+    pointer-events: none;      /* Prevent interaction */
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+/* --- End Custom Styles --- */
